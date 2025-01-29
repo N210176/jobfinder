@@ -1,0 +1,10 @@
+.find-workers-page {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.find-workers-page h1 {
+    color: #1a2634;
+    margin-bottom: 30px;
+}
