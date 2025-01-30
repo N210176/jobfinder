@@ -94,7 +94,7 @@ const Login = () => {
             </div>
 
             <button type="submit" className="login-button">
-              Sign In
+              Login
             </button>
 
             <div className="social-login">
