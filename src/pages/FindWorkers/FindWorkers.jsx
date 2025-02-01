@@ -12,7 +12,8 @@ import {
   FormControl, 
   InputLabel,
   ThemeProvider,
-  createTheme
+  createTheme,
+  InputAdornment
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import './FindWorkers.css';
@@ -99,10 +100,11 @@ const FindWorkers = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [location, setLocation] = useState('');
+  const [defaultWorkers, setDefaultWorkers] = useState([]);
 
   useEffect(() => {
-    // Only set default workers
-    const defaultWorkers = [
+    // Default workers data
+    const initialWorkers = [
       {
         id: 1,
         name: 'Manoj Kumar',
@@ -239,153 +241,28 @@ const FindWorkers = () => {
         verified: true
       }
     ];
-    setWorkers(defaultWorkers);
+    
+    setDefaultWorkers(initialWorkers);
+    setWorkers(initialWorkers);
     // Clear any existing workers from localStorage
     localStorage.removeItem('workers');
   }, []);
 
   const handleSearch = () => {
-    const defaultWorkers = [
-      {
-        id: 1,
-        name: 'Manoj Kumar',
-        category: 'Carpenter',
-        location: 'Bangalore',
-        rating: 4.7,
-        experience: '12',
-        hourlyRate: '₹700',
-        skills: ['Custom Furniture', 'Wood Repair', 'Cabinet Making'],
-        languages: ['Kannada', 'English', 'Hindi'],
-        availability: 'All Days',
-        completedJobs: 345,
-        profileImage: manojImg,
-        verified: true
-      },
-      {
-        id: 2,
-        name: 'Rishik',
-        category: 'Electrician',
-        location: 'Delhi',
-        rating: 4.9,
-        experience: '6',
-        hourlyRate: '₹550',
-        skills: ['Wiring', 'Circuit Installation', 'Smart Home Setup'],
-        languages: ['Hindi', 'English'],
-        availability: 'Weekdays',
-        completedJobs: 189,
-        profileImage: rishikImg,
-        verified: true
-      },
-      {
-        id: 3,
-        name: 'Ketham Babu',
-        category: 'Plumber',
-        location: 'Mumbai',
-        rating: 4.8,
-        experience: '8',
-        hourlyRate: '₹600',
-        skills: ['Pipe Fitting', 'Leak Repair', 'Bathroom Installation'],
-        languages: ['Hindi', 'English', 'Marathi'],
-        availability: 'Weekdays & Weekends',
-        completedJobs: 234,
-        profileImage: kethamImg,
-        verified: true
-      },
-      {
-        id: 4,
-        name: 'Ahalya',
-        category: 'House Cleaner',
-        location: 'Hyderabad',
-        rating: 4.6,
-        experience: '4',
-        hourlyRate: '₹400',
-        skills: ['Deep Cleaning', 'Organization', 'Sanitization'],
-        languages: ['Telugu', 'Hindi', 'English'],
-        availability: 'Weekdays',
-        completedJobs: 156,
-        profileImage: ahalyaImg,
-        verified: true
-      },
-      {
-        id: 5,
-        name: 'Sagar',
-        category: 'Painter',
-        location: 'Pune',
-        rating: 4.8,
-        experience: '10',
-        hourlyRate: '₹650',
-        skills: ['Interior Painting', 'Exterior Painting', 'Wallpaper Installation'],
-        languages: ['Hindi', 'Marathi', 'English'],
-        availability: 'Flexible',
-        completedJobs: 278,
-        profileImage: sagarImg,
-        verified: true
-      },
-      {
-        id: 6,
-        name: 'Vijaya Lakshmi',
-        category: 'Gardener',
-        location: 'Chennai',
-        rating: 4.7,
-        experience: '5',
-        hourlyRate: '₹450',
-        skills: ['Landscaping', 'Plant Care', 'Garden Maintenance'],
-        languages: ['Tamil', 'English'],
-        availability: 'Morning Hours',
-        completedJobs: 143,
-        profileImage: vijayaImg,
-        verified: true
-      },
-      {
-        id: 7,
-        name: 'Sunil Kumar',
-        category: 'AC Technician',
-        location: 'Mumbai',
-        rating: 4.9,
-        experience: '7',
-        hourlyRate: '₹800',
-        skills: ['AC Repair', 'Installation', 'Maintenance'],
-        languages: ['Hindi', 'English', 'Marathi'],
-        availability: 'All Days',
-        completedJobs: 312,
-        profileImage: sunilImg,
-        verified: true
-      },
-      {
-        id: 8,
-        name: 'Annie Harshini',
-        category: 'Cook',
-        location: 'Delhi',
-        rating: 4.8,
-        experience: '15',
-        hourlyRate: '₹750',
-        skills: ['Indian Cuisine', 'Baking', 'Dietary Cooking'],
-        languages: ['Hindi', 'English', 'Punjabi'],
-        availability: 'Flexible Hours',
-        completedJobs: 423,
-        profileImage: annieImg,
-        verified: true
-      },
-      {
-        id: 9,
-        name: 'Venkatesh',
-        category: 'Security Guard',
-        location: 'Bangalore',
-        rating: 4.6,
-        experience: '9',
-        hourlyRate: '₹500',
-        skills: ['Surveillance', 'Emergency Response', 'Access Control'],
-        languages: ['English', 'Kannada', 'Hindi'],
-        availability: '24/7 Shifts',
-        completedJobs: 167,
-        profileImage: venkateshImg,
-        verified: true
-      }
-    ];
+    if (category === 'all' && !searchQuery && !location) {
+      setWorkers(defaultWorkers);
+      return;
+    }
+
     const filteredWorkers = defaultWorkers.filter(worker => {
       const searchIn = worker.name.toLowerCase() + ' ' + worker.category.toLowerCase();
-      const matchesSearch = searchIn.includes(searchQuery.toLowerCase());
-      const matchesCategory = category === 'all' || worker.category.toLowerCase() === category.toLowerCase();
+      const matchesSearch = searchQuery ? searchIn.includes(searchQuery.toLowerCase()) : true;
+      
+      // Exact category matching
+      const workerCategory = worker.category.toLowerCase();
+      const selectedCategory = category.toLowerCase();
+      const matchesCategory = category === 'all' || workerCategory === selectedCategory;
+      
       const matchesLocation = !location || worker.location.toLowerCase().includes(location.toLowerCase());
       
       return matchesSearch && matchesCategory && matchesLocation;
@@ -394,14 +271,22 @@ const FindWorkers = () => {
     setWorkers(filteredWorkers);
   };
 
+  const handleBookNow = (worker) => {
+    // For now just show an alert, later we can add booking functionality
+    alert(`Booking request sent for ${worker.name}. They will contact you soon!`);
+  };
+
+  // Get unique categories from default workers and sort them
+  const categories = [...new Set(defaultWorkers.map(worker => worker.category))].sort();
+
   const renderWorkerCard = (worker) => {
     const isDefaultWorker = worker.verified !== undefined;
 
     if (isDefaultWorker) {
       // Render default worker card with original layout
       return (
-        <Card sx={{ height: '100%' }}>
-          <CardContent>
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <CardContent sx={{ flexGrow: 1 }}>
             {worker.verified && (
               <Box
                 sx={{
@@ -492,13 +377,30 @@ const FindWorkers = () => {
               </Box>
             </Box>
           </CardContent>
+          <Box sx={{ p: 2, pt: 0 }}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => handleBookNow(worker)}
+              sx={{
+                bgcolor: '#ff6b00',
+                '&:hover': {
+                  bgcolor: '#ff8533',
+                },
+                color: '#ffffff',
+                fontWeight: 600,
+              }}
+            >
+              Book Now
+            </Button>
+          </Box>
         </Card>
       );
     } else {
       // Render new worker card with PostJob layout
       return (
-        <Card sx={{ height: '100%' }}>
-          <CardContent>
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <CardContent sx={{ flexGrow: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <Box
                 component="img"
@@ -535,6 +437,23 @@ const FindWorkers = () => {
               <strong style={{ color: '#FFD700' }}>Address:</strong> {worker.address.street}
             </Typography>
           </CardContent>
+          <Box sx={{ p: 2, pt: 0 }}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => handleBookNow(worker)}
+              sx={{
+                bgcolor: '#ff6b00',
+                '&:hover': {
+                  bgcolor: '#ff8533',
+                },
+                color: '#ffffff',
+                fontWeight: 600,
+              }}
+            >
+              Book Now
+            </Button>
+          </Box>
         </Card>
       );
     }
@@ -570,7 +489,10 @@ const FindWorkers = () => {
                 label="Search workers"
                 variant="outlined"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  handleSearch();
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -579,7 +501,10 @@ const FindWorkers = () => {
                 <Select
                   value={category}
                   label="Category"
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                    setTimeout(() => handleSearch(), 0);
+                  }}
                   sx={{
                     color: '#ffffff',
                     '& .MuiOutlinedInput-notchedOutline': {
@@ -588,12 +513,9 @@ const FindWorkers = () => {
                   }}
                 >
                   <MenuItem value="all">All Categories</MenuItem>
-                  <MenuItem value="plumbing">Plumbing</MenuItem>
-                  <MenuItem value="electrical">Electrical</MenuItem>
-                  <MenuItem value="carpentry">Carpentry</MenuItem>
-                  <MenuItem value="painting">Painting</MenuItem>
-                  <MenuItem value="cleaning">Cleaning</MenuItem>
-                  <MenuItem value="gardening">Gardening</MenuItem>
+                  {categories.map((cat) => (
+                    <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -603,16 +525,24 @@ const FindWorkers = () => {
                 label="Location"
                 variant="outlined"
                 value={location}
-                onChange={(e) => setLocation(e.target.value)}
+                onChange={(e) => {
+                  setLocation(e.target.value);
+                  handleSearch();
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={2}>
               <Button
                 fullWidth
                 variant="contained"
-                startIcon={<SearchIcon />}
                 onClick={handleSearch}
-                sx={{ height: '56px' }}
+                sx={{
+                  height: '56px',
+                  bgcolor: '#ff6b00',
+                  '&:hover': {
+                    bgcolor: '#ff8533',
+                  },
+                }}
               >
                 Search
               </Button>
