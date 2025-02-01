@@ -17,7 +17,6 @@ const PostJob = () => {
         },
         profilePhotoUrl: null
     });
-    const [selectedPhoto, setSelectedPhoto] = useState(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
