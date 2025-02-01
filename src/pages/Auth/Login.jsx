@@ -46,7 +46,10 @@ const Login = () => {
 
       <div className="login-right">
         <div className="login-box">
-          <h3>Login</h3>
+          <div className="login-header">
+            <h3>Welcome Back!</h3>
+            <p className="login-subtitle">Please enter your details to Login</p>
+          </div>
           
           <form onSubmit={handleSubmit} className="login-form">
             {error && <div className="error-message">{error}</div>}
@@ -98,24 +101,26 @@ const Login = () => {
             </button>
 
             <div className="social-login">
-              <p>Or continue with</p>
+              <div className="divider">
+                <span>Or continue with</span>
+              </div>
               <div className="social-buttons">
-                <button type="button" className="social-button google">
+                <button type="button" className="social-btn google">
                   <i className="fab fa-google"></i>
                 </button>
-                <button type="button" className="social-button github">
+                <button type="button" className="social-btn github">
                   <i className="fab fa-github"></i>
                 </button>
-                <button type="button" className="social-button linkedin">
+                <button type="button" className="social-btn linkedin">
                   <i className="fab fa-linkedin"></i>
                 </button>
               </div>
             </div>
           </form>
 
-          <p className="signup-link">
-            New to JobFinder? <a href="/signup">Sign Up</a>
-          </p>
+          <div className="signup-link">
+            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+          </div>
         </div>
       </div>
     </div>
