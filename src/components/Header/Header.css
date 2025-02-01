@@ -67,6 +67,7 @@
 .auth-buttons {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 
 .login-button,
@@ -77,19 +78,29 @@
     text-decoration: none;
     transition: all 0.3s ease;
     font-weight: 500;
-}
-
-.login-button {
+    min-width: 90px;
+    text-align: center;
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    box-sizing: border-box;
     background-color: transparent;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+/* .login-button {
+    
 }
 
 .signup-button {
     background-color: #FF6B35;
     color: white;
     border: 1px solid #FF6B35;
-}
+} */
 
 .login-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
@@ -105,11 +116,9 @@
     .header {
         padding: 15px 20px;
     }
-
     .nav-links {
         gap: 20px;
     }
-
     .search-bar {
         width: 200px;
     }
@@ -120,19 +129,16 @@
         flex-wrap: wrap;
         gap: 15px;
     }
-
     .nav-links {
         order: 3;
         width: 100%;
         justify-content: center;
     }
-
     .search-section {
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px;
     }
-
     .auth-buttons {
         width: 100%;
         justify-content: center;
