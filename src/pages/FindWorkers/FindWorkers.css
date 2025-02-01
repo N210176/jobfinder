@@ -1,10 +1,63 @@
 .find-workers-page {
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+    color: #ffffff;
 }
 
-.find-workers-page h1 {
-    color: #1a2634;
-    margin-bottom: 30px;
+.find-workers-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 107, 0, 0.1) 0%, rgba(17, 16, 16, 0) 100%);
+    pointer-events: none;
+}
+
+/* Input placeholder styles */
+.MuiInputBase-input::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+    opacity: 1;
+}
+
+/* Select dropdown styles */
+.MuiSelect-select {
+    color: #ffffff !important;
+}
+
+.MuiMenuItem-root {
+    color: #333333;
+}
+
+.MuiMenuItem-root:hover {
+    background-color: rgba(255, 107, 0, 0.1) !important;
+}
+
+/* Card hover animation */
+.MuiCard-root {
+    transition: all 0.3s ease-in-out !important;
+}
+
+.MuiCard-root:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(255, 107, 0, 0.3) !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff6b00;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff8533;
 }
