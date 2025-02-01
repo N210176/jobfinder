@@ -11,21 +11,23 @@ const PostJob = () => {
         experience: '',
         gender: '',
         address: {
-            area: '',
+            street: '',
             city: '',
             district: ''
         },
-        profilePhoto: null
+        profilePhotoUrl: null
     });
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        if (name in formData.address) {
+        if (name.includes('.')) {
+            const [parent, child] = name.split('.');
             setFormData(prev => ({
                 ...prev,
-                address: {
-                    ...prev.address,
-                    [name]: value
+                [parent]: {
+                    ...prev[parent],
+                    [child]: value
                 }
             }));
         } else {
@@ -41,9 +43,10 @@ const PostJob = () => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
+                const base64String = reader.result;
                 setFormData(prev => ({
                     ...prev,
-                    profilePhoto: reader.result
+                    profilePhotoUrl: base64String
                 }));
             };
             reader.readAsDataURL(file);
@@ -52,7 +55,29 @@ const PostJob = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/find-workers', { state: { workerProfile: formData } });
+        try {
+            // Get existing workers from localStorage or initialize empty array
+            const existingWorkers = JSON.parse(localStorage.getItem('workers') || '[]');
+            
+            // Add new worker profile
+            const newWorker = {
+                id: Date.now(), // Generate a unique ID
+                ...formData,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Add to existing workers
+            existingWorkers.push(newWorker);
+            
+            // Save back to localStorage
+            localStorage.setItem('workers', JSON.stringify(existingWorkers));
+            
+            // Navigate to find-workers page
+            navigate('/find-workers');
+        } catch (error) {
+            console.error('Error creating profile:', error);
+            alert('Failed to create profile. Please try again.');
+        }
     };
 
     return (
@@ -154,24 +179,24 @@ const PostJob = () => {
                             <h3>Address Details</h3>
                             <div className="address-fields">
                                 <div className="form-group">
-                                    <label htmlFor="area">Area/Street</label>
+                                    <label htmlFor="address.street">Street/Area</label>
                                     <input
                                         type="text"
-                                        id="area"
-                                        name="area"
-                                        value={formData.address.area}
+                                        id="address.street"
+                                        name="address.street"
+                                        value={formData.address.street}
                                         onChange={handleInputChange}
-                                        placeholder="Enter your area or street name"
+                                        placeholder="Enter your street or area"
                                         required
                                     />
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="city">City</label>
+                                    <label htmlFor="address.city">City</label>
                                     <input
                                         type="text"
-                                        id="city"
-                                        name="city"
+                                        id="address.city"
+                                        name="address.city"
                                         value={formData.address.city}
                                         onChange={handleInputChange}
                                         placeholder="Enter your city"
@@ -180,11 +205,11 @@ const PostJob = () => {
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="district">District</label>
+                                    <label htmlFor="address.district">District</label>
                                     <input
                                         type="text"
-                                        id="district"
-                                        name="district"
+                                        id="address.district"
+                                        name="address.district"
                                         value={formData.address.district}
                                         onChange={handleInputChange}
                                         placeholder="Enter your district"
@@ -204,8 +229,8 @@ const PostJob = () => {
                         <h2>Profile Preview</h2>
                         <div className="preview-card">
                             <div className="preview-photo">
-                                {formData.profilePhoto ? (
-                                    <img src={formData.profilePhoto} alt="Profile preview" />
+                                {formData.profilePhotoUrl ? (
+                                    <img src={formData.profilePhotoUrl} alt="Profile preview" />
                                 ) : (
                                     <div className="photo-placeholder">
                                         <span>No Photo</span>
@@ -219,7 +244,7 @@ const PostJob = () => {
                                     <p><strong>Phone:</strong> <span>{formData.phone}</span></p>
                                     <p><strong>Experience:</strong> <span>{formData.experience} years</span></p>
                                     <p><strong>Gender:</strong> <span>{formData.gender}</span></p>
-                                    <p><strong>Location:</strong> <span>{formData.address.area}, {formData.address.city}</span></p>
+                                    <p><strong>Location:</strong> <span>{formData.address.street}, {formData.address.city}</span></p>
                                 </div>
                             </div>
                         </div>
