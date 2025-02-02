@@ -15,6 +15,7 @@ import {
   createTheme,
   InputAdornment
 } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import './FindWorkers.css';
 
@@ -96,11 +97,41 @@ const theme = createTheme({
 });
 
 const FindWorkers = () => {
+  const location = useLocation();
   const [workers, setWorkers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [category, setCategory] = useState('all');
-  const [location, setLocation] = useState('');
+  const [category, setCategory] = useState(location.state?.selectedCategory || 'all');
+  const [workerLocation, setWorkerLocation] = useState('');
   const [defaultWorkers, setDefaultWorkers] = useState([]);
+  const [registeredWorkers, setRegisteredWorkers] = useState([]);
+
+   // Fetch worker profiles from backend
+
+  const fetchWorkerProfiles = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/api/workers');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        const formattedWorkers = result.data.map(worker => ({
+          ...worker,
+          skills: worker.skills || [] // Ensure `skills` is always an array
+        }));
+        
+        setRegisteredWorkers(formattedWorkers);
+        setWorkers([...defaultWorkers, ...formattedWorkers]);
+      } else {
+        console.error('Invalid response format:', result);
+      }
+    } catch (error) {
+      console.error('Error fetching worker profiles:', error);
+      setWorkers(defaultWorkers); // Fallback to default workers
+    }
+  };
+
+       
+
 
   useEffect(() => {
     // Default workers data
@@ -243,33 +274,67 @@ const FindWorkers = () => {
     ];
     
     setDefaultWorkers(initialWorkers);
-    setWorkers(initialWorkers);
-    // Clear any existing workers from localStorage
-    localStorage.removeItem('workers');
-  }, []);
+    
+    // If a category was passed from Services, filter workers immediately
+    if (location.state?.selectedCategory) {
+      const filtered = initialWorkers.filter(worker => 
+        worker.category === location.state.selectedCategory
+      );
+      setWorkers(filtered);
+    } else {
+      setWorkers(initialWorkers);
+    }
+    
+    // Fetch registered workers after setting default workers
+    fetchWorkerProfiles();
+  }, [location.state?.selectedCategory]);
+  
+
+  useEffect(() => {
+    if (category === 'all') {
+      // When 'all' is selected, show both default and registered workers
+      setWorkers([...defaultWorkers, ...registeredWorkers]);
+    } else {
+      // Filter both default and registered workers by category
+      const allWorkers = [...defaultWorkers, ...registeredWorkers];
+      const filtered = allWorkers.filter(worker => 
+        (worker.category || worker.service).toLowerCase() === category.toLowerCase()
+      );
+      setWorkers(filtered);
+    }
+  }, [category, defaultWorkers, registeredWorkers]);
+  
+
+  const handleLocationChange = (event) => {
+    setWorkerLocation(event.target.value);
+  };
 
   const handleSearch = () => {
-    if (category === 'all' && !searchQuery && !location) {
-      setWorkers(defaultWorkers);
-      return;
+    let filtered = [...defaultWorkers, ...registeredWorkers];
+
+    console.log("Search Query:", searchQuery);
+    console.log("Workers before filtering:", filtered);
+
+    if (searchQuery) {
+        filtered = filtered.filter(worker =>
+            worker.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (Array.isArray(worker.skills) && worker.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase())))
+        );
     }
 
-    const filteredWorkers = defaultWorkers.filter(worker => {
-      const searchIn = worker.name.toLowerCase() + ' ' + worker.category.toLowerCase();
-      const matchesSearch = searchQuery ? searchIn.includes(searchQuery.toLowerCase()) : true;
-      
-      // Exact category matching
-      const workerCategory = worker.category.toLowerCase();
-      const selectedCategory = category.toLowerCase();
-      const matchesCategory = category === 'all' || workerCategory === selectedCategory;
-      
-      const matchesLocation = !location || worker.location.toLowerCase().includes(location.toLowerCase());
-      
-      return matchesSearch && matchesCategory && matchesLocation;
-    });
-    
-    setWorkers(filteredWorkers);
-  };
+    if (category !== 'all') {
+        filtered = filtered.filter(worker => (worker.category || worker.service).toLowerCase() === category.toLowerCase());
+    }
+
+    if (workerLocation) {
+        filtered = filtered.filter(worker =>
+            (worker.location || (worker.address?.city)).toLowerCase().includes(workerLocation.toLowerCase())
+        );
+    }
+
+    console.log("Filtered Workers:", filtered);
+    setWorkers(filtered);
+};
 
   const handleBookNow = (worker) => {
     // For now just show an alert, later we can add booking functionality
@@ -277,7 +342,17 @@ const FindWorkers = () => {
   };
 
   // Get unique categories from default workers and sort them
-  const categories = [...new Set(defaultWorkers.map(worker => worker.category))].sort();
+  const categories = [
+    'Plumber',
+    'Electrician',
+    'Carpenter',
+    'Painter',
+    'House Cleaner',
+    'Gardener',
+    'AC Technician',
+    'Cook',
+    'Security Guard'
+  ].sort();
 
   const renderWorkerCard = (worker) => {
     const isDefaultWorker = worker.verified !== undefined;
@@ -411,8 +486,12 @@ const FindWorkers = () => {
                   objectFit: 'cover',
                   border: '2px solid #ff6b00'
                 }}
-                src={worker.profilePhotoUrl}
+                src={worker.profilePhotoUrl ? `http://localhost:5001/${worker.profilePhotoUrl}` : '/default-profile.png'}
                 alt={worker.name}
+                onError={(e) => {
+                  e.target.onerror = null; // Prevent infinite loop
+                  e.target.src = '/default-profile.png';
+                }}
               />
               <Box sx={{ ml: 2 }}>
                 <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 600 }}>
@@ -503,18 +582,25 @@ const FindWorkers = () => {
                   label="Category"
                   onChange={(e) => {
                     setCategory(e.target.value);
-                    setTimeout(() => handleSearch(), 0);
                   }}
                   sx={{
                     color: '#ffffff',
                     '& .MuiOutlinedInput-notchedOutline': {
                       borderColor: '#ff6b00',
                     },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#FFD700',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#ff6b00',
+                    },
                   }}
                 >
                   <MenuItem value="all">All Categories</MenuItem>
                   {categories.map((cat) => (
-                    <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+                    <MenuItem key={cat} value={cat}>
+                      {cat}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -524,11 +610,8 @@ const FindWorkers = () => {
                 fullWidth
                 label="Location"
                 variant="outlined"
-                value={location}
-                onChange={(e) => {
-                  setLocation(e.target.value);
-                  handleSearch();
-                }}
+                value={workerLocation}
+                onChange={handleLocationChange}
               />
             </Grid>
             <Grid item xs={12} sm={2}>
@@ -551,7 +634,7 @@ const FindWorkers = () => {
 
           <Grid container spacing={3}>
             {workers.map((worker) => (
-              <Grid item xs={12} sm={6} md={4} key={worker.id}>
+              <Grid item xs={12} sm={6} md={4} key={worker.id || worker._id || `worker-${worker.name}-${worker.category || worker.service}`}>
                 {renderWorkerCard(worker)}
               </Grid>
             ))}
@@ -561,5 +644,6 @@ const FindWorkers = () => {
     </ThemeProvider>
   );
 };
+
 
 export default FindWorkers;

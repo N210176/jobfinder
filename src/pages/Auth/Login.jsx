@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authService } from '../../api/authService';
 import './Login.css';
 
 const Login = () => {
@@ -8,6 +9,7 @@ const Login = () => {
     password: '',
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,15 +23,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     
     try {
-      // Here you would typically make an API call to your backend
-      console.log('Login attempt with:', formData);
-      
-      // For now, just simulate a successful login
-      navigate('/dashboard');
+      await authService.login(formData.email, formData.password);
+      navigate('/');
     } catch (err) {
-      setError('Invalid email or password');
+      setError(err.message || 'Invalid email or password');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,8 +98,8 @@ const Login = () => {
               </a>
             </div>
 
-            <button type="submit" className="login-button">
-              Login
+            <button type="submit" className="login-button" disabled={loading}>
+              {loading ? 'Loading...' : 'Login'}
             </button>
 
             <div className="social-login">

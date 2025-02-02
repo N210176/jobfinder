@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import workerService from '../../api/workerService';
 import './PostJob.css';
 
 const PostJob = () => {
@@ -15,8 +16,11 @@ const PostJob = () => {
             city: '',
             district: ''
         },
-        profilePhotoUrl: null
+        profilePhotoUrl: null,
+        profilePhoto: null
     });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -39,43 +43,53 @@ const PostJob = () => {
 
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
+        console.log("File selected:", file);
         if (file) {
+            console.log("File selected:", file);
+            if (file.size > 30 * 1024 * 1024) { // 5MB limit
+                setError('File size should be less than 30MB');
+                return;
+            }
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64String = reader.result;
                 setFormData(prev => ({
                     ...prev,
-                    profilePhotoUrl: base64String
+                    profilePhotoUrl: base64String,
+                    profilePhoto: file
                 }));
             };
             reader.readAsDataURL(file);
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
+
         try {
-            // Get existing workers from localStorage or initialize empty array
-            const existingWorkers = JSON.parse(localStorage.getItem('workers') || '[]');
-            
-            // Add new worker profile
-            const newWorker = {
-                id: Date.now(), // Generate a unique ID
-                ...formData,
-                createdAt: new Date().toISOString()
-            };
-            
-            // Add to existing workers
-            existingWorkers.push(newWorker);
-            
-            // Save back to localStorage
-            localStorage.setItem('workers', JSON.stringify(existingWorkers));
-            
-            // Navigate to find-workers page
+            const formDataToSend = new FormData();
+            Object.keys(formData).forEach(key => {
+                if (key === 'address') {
+                    Object.keys(formData.address).forEach(addressKey => {
+                        formDataToSend.append(`address[${addressKey}]`, formData.address[addressKey]);
+                    });
+                } else if (key === 'profilePhoto') {
+                    formDataToSend.append('profilePhoto', formData.profilePhoto);
+                } else {
+                    formDataToSend.append(key, formData[key]);
+                }
+            });
+            console.log("formdata",FormData);
+            console.log("formdata",formDataToSend);
+            await workerService.createWorker(formDataToSend);
             navigate('/find-workers');
         } catch (error) {
             console.error('Error creating profile:', error);
-            alert('Failed to create profile. Please try again.');
+            setError(error.message || 'Failed to create profile. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -133,12 +147,15 @@ const PostJob = () => {
                                 required
                             >
                                 <option value="">Select the service you provide</option>
-                                <option value="plumbing">Plumbing</option>
-                                <option value="electrical">Electrical</option>
-                                <option value="carpentry">Carpentry</option>
-                                <option value="painting">Painting</option>
-                                <option value="cleaning">Cleaning</option>
-                                <option value="gardening">Gardening</option>
+                                <option value="Plumber">Plumber</option>
+                                <option value="Electrician">Electrician</option>
+                                <option value="Carpenter">Carpenter</option>
+                                <option value="Painter">Painter</option>
+                                <option value="House Cleaner">House Cleaner</option>
+                                <option value="Gardener">Gardener</option>
+                                <option value="AC Technician">AC Technician</option>
+                                <option value="Cook">Cook</option>
+                                <option value="Security Guard">Security Guard</option>
                             </select>
                         </div>
 
@@ -218,7 +235,8 @@ const PostJob = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="submit-button">Create Profile</button>
+                        <button type="submit" className="submit-button" disabled={loading}>Create Profile</button>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
                     </form>
                 </div>
 
