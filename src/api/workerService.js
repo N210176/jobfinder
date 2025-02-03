@@ -8,22 +8,25 @@ const workerService = {
             throw new Error('Please login to create a worker profile');
         }
 
-        const response = await fetch(`${API_BASE_URL}/workers`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            body: formData
-        });
+        try {
+            const response = await fetch(`${API_BASE_URL}/workers`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
 
-        const data = await response.json();
-        console.log("fomememmemem",formData);
-        console.log(data);
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to create worker profile');
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || data.message || 'Failed to create worker profile');
+            }
+
+            return data;
+        } catch (error) {
+            throw error;
         }
-
-        return data;
     },
 
     // Get all workers with optional filters

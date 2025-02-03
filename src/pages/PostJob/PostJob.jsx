@@ -43,11 +43,12 @@ const PostJob = () => {
 
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
-        console.log("File selected:", file);
+        //console.log("File selected:", file);
         if (file) {
-            console.log("File selected:", file);
-            if (file.size > 30 * 1024 * 1024) { // 5MB limit
-                setError('File size should be less than 30MB');
+            //console.log("File selected:", file);
+            if (file.size > 30 * 1024 * 1024) { // 30MB limit
+                setError('File size should be less than 30MB. Please compress your image or choose a smaller file.');
+                e.target.value = ''; // Clear the file input
                 return;
             }
             const reader = new FileReader();
@@ -66,7 +67,7 @@ const PostJob = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
+        setError(null);
 
         try {
             const formDataToSend = new FormData();
@@ -77,12 +78,10 @@ const PostJob = () => {
                     });
                 } else if (key === 'profilePhoto') {
                     formDataToSend.append('profilePhoto', formData.profilePhoto);
-                } else {
+                } else if (key !== 'profilePhotoUrl') {
                     formDataToSend.append(key, formData[key]);
                 }
             });
-            console.log("formdata",FormData);
-            console.log("formdata",formDataToSend);
             await workerService.createWorker(formDataToSend);
             navigate('/find-workers');
         } catch (error) {

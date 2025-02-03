@@ -7,10 +7,19 @@ const upload = require('../middleware/upload');
 // Create a new worker profile
 router.post('/', auth, upload.single('profilePhoto'), async (req, res) => {
     try {
+        // Check if file was uploaded successfully
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: 'Profile photo is required'
+            });
+        }
+
+        // Create worker data with the file path
         const workerData = {
             ...req.body,
             userId: req.user._id,
-            profilePhotoUrl: req.file.path // This will be handled by the upload middleware
+            profilePhotoUrl: req.file.path.replace(/\\/g, '/') // Ensure proper path format
         };
 
         const worker = new Worker(workerData);
@@ -21,10 +30,29 @@ router.post('/', auth, upload.single('profilePhoto'), async (req, res) => {
             data: worker
         });
     } catch (error) {
-        console.error('Error creating worker profile:', error);
-        res.status(400).json({
+        // Remove uploaded file if worker creation fails
+        if (req.file) {
+            const fs = require('fs');
+            fs.unlink(req.file.path, (unlinkError) => {
+                if (unlinkError) {
+                    console.error('Error removing uploaded file:', unlinkError);
+                }
+            });
+        }
+
+        // If it's a validation error from Mongoose
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                success: false,
+                message: Object.values(error.errors).map(err => err.message).join(', ')
+            });
+        }
+        
+        // For other errors
+        res.status(500).json({
             success: false,
-            message: error.message
+            message: 'Server error while creating worker profile. Please try again.',
+            error: error.message
         });
     }
 });
@@ -108,9 +136,18 @@ router.put('/:id', auth, upload.single('profilePhoto'), async (req, res) => {
         });
     } catch (error) {
         console.error('Error updating worker profile:', error);
-        res.status(400).json({
+        // Remove uploaded file if worker update fails
+        if (req.file) {
+            const fs = require('fs');
+            fs.unlink(req.file.path, (unlinkError) => {
+                if (unlinkError) console.error('Error removing uploaded file:', unlinkError);
+            });
+        }
+        
+        // Send appropriate error response
+        res.status(500).json({
             success: false,
-            message: error.message
+            message: 'Server error while updating worker profile. Please try again.'
         });
     }
 });
