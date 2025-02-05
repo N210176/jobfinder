@@ -24,6 +24,55 @@ const PostJob = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        
+        // Phone number validation
+        if (name === 'phone') {
+            // Remove any non-digit characters
+            const cleanedValue = value.replace(/\D/g, '');
+            
+            // Check if the number contains invalid starting digits (0-5)
+            if (/^[012345]/.test(cleanedValue)) {
+                setError('Phone number must not start with 0, 1, 2, 3, 4, or 5');
+                return; // Don't update the form value
+            }
+            
+            // Check if the number starts with 7, 8, or 9 and is exactly 10 digits
+            const phoneRegex = /^[789]\d{9}$/;
+            
+            if (cleanedValue.length > 0) {
+                if (cleanedValue.length !== 10) {
+                    setError('Phone number must be 10 digits');
+                } else if (!phoneRegex.test(cleanedValue)) {
+                    setError('Phone number must start with 7, 8, or 9');
+                } else {
+                    setError('');
+                }
+            } else {
+                setError('');
+            }
+            
+            // Only update if it's a valid number or empty
+            if (cleanedValue.length <= 10 && !/^[012345]/.test(cleanedValue)) {
+                if (name.includes('.')) {
+                    const [parent, child] = name.split('.');
+                    setFormData(prev => ({
+                        ...prev,
+                        [parent]: {
+                            ...prev[parent],
+                            [child]: cleanedValue
+                        }
+                    }));
+                } else {
+                    setFormData(prev => ({
+                        ...prev,
+                        [name]: cleanedValue
+                    }));
+                }
+            }
+            return;
+        }
+
+        // Handle other inputs normally
         if (name.includes('.')) {
             const [parent, child] = name.split('.');
             setFormData(prev => ({
@@ -66,6 +115,14 @@ const PostJob = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate phone number before submission
+        const phoneRegex = /^[789]\d{9}$/;
+        if (!phoneRegex.test(formData.phone)) {
+            setError('Please enter a valid 10-digit phone number starting with 7, 8, or 9');
+            return;
+        }
+        
         setLoading(true);
         setError(null);
 
@@ -131,9 +188,13 @@ const PostJob = () => {
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleInputChange}
-                                placeholder="Enter your phone number"
+                                placeholder="Enter valid mobile number"
                                 required
+                                pattern="[789][0-9]{9}"
                             />
+                            {error && error.includes('phone') && (
+                                <div className="error-message">{error}</div>
+                            )}
                         </div>
 
                         <div className="form-group">
@@ -235,7 +296,7 @@ const PostJob = () => {
                         </div>
 
                         <button type="submit" className="submit-button" disabled={loading}>Create Profile</button>
-                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                        {error && !error.includes('phone') && <p style={{ color: 'red' }}>{error}</p>}
                     </form>
                 </div>
 
