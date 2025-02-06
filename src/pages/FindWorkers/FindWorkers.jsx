@@ -12,8 +12,7 @@ import {
   FormControl, 
   InputLabel,
   ThemeProvider,
-  createTheme,
-  InputAdornment
+  createTheme
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
@@ -306,6 +305,10 @@ const FindWorkers = () => {
   }, [category, defaultWorkers, registeredWorkers]);
   
 
+  useEffect(() => {
+    fetchWorkerProfiles();
+  }, [fetchWorkerProfiles]);
+
   const handleLocationChange = (event) => {
     setWorkerLocation(event.target.value);
   };
@@ -486,7 +489,7 @@ const FindWorkers = () => {
                   objectFit: 'cover',
                   border: '2px solid #ff6b00'
                 }}
-                src={worker.profilePhotoUrl ? `http://localhost:5001/${worker.profilePhotoUrl}` : '/default-profile.png'}
+                src={worker.profilePhotoUrl ? `http://localhost:5001/uploads/${worker.profilePhotoUrl}` : '/default-profile.png'}
                 alt={worker.name}
                 onError={(e) => {
                   e.target.onerror = null; // Prevent infinite loop

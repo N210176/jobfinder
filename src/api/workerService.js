@@ -18,7 +18,6 @@ const workerService = {
             });
 
             const data = await response.json();
-
             if (!response.ok) {
                 throw new Error(data.error || data.message || 'Failed to create worker profile');
             }
