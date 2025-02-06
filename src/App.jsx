@@ -9,6 +9,7 @@ import FindWorkers from './pages/FindWorkers/FindWorkers';
 import BookingPage from './pages/Booking/BookingPage';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
+import ForgotPassword from './pages/Auth/ForgotPassword';
 import About from './pages/About/About';
 import NotFound from './pages/NotFound/NotFound';
 import './App.css';
@@ -31,6 +32,7 @@ function App() {
             <Route path="/booking" element={<BookingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

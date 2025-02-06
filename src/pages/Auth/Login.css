@@ -110,21 +110,20 @@
     position: relative;
 }
 
-.input-group input {
+.login-container .input-group input {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 2.5rem;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 10px;
+    padding: 12px 12px 12px 40px;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
     font-size: 0.95rem;
-    color: #1a2634;
+    background-color: white;
     transition: all 0.3s ease;
-    background: #fff;
 }
 
-.input-group input:focus {
-    border-color: #FF6B35;
+.login-container .input-group input:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    border-color: #FFB900;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
 }
 
 .input-group i {
