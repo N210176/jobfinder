@@ -8,6 +8,7 @@ import PostJob from './pages/PostJob/PostJob';
 import FindWorkers from './pages/FindWorkers/FindWorkers';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
+import About from './pages/About/About';
 import NotFound from './pages/NotFound/NotFound';
 import './App.css';
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/find-workers" element={<FindWorkers />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
