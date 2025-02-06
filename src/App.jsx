@@ -6,6 +6,7 @@ import Hero from './components/Hero/Hero';
 import Services from './components/Services/Services';
 import PostJob from './pages/PostJob/PostJob';
 import FindWorkers from './pages/FindWorkers/FindWorkers';
+import BookingPage from './pages/Booking/BookingPage';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import About from './pages/About/About';
@@ -27,6 +28,7 @@ function App() {
             } />
             <Route path="/post-job" element={<PostJob />} />
             <Route path="/find-workers" element={<FindWorkers />} />
+            <Route path="/booking" element={<BookingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />} />
