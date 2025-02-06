@@ -117,13 +117,17 @@
     border-radius: 8px;
     font-size: 0.95rem;
     background-color: white;
+    color: #FFD700;
     transition: all 0.3s ease;
 }
 
 .login-container .input-group input:focus {
     outline: none;
-    border-color: #FFB900;
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+.login-container .input-group input::placeholder {
+    color: #FFD700;
+    opacity: 0.7;
 }
 
 .input-group i {
@@ -237,9 +241,6 @@
     color: #64748b;
     font-size: 0.9rem;
 }
-
-
-
 
 .signup-link {
     text-align: center;

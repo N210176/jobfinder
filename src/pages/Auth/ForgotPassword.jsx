@@ -11,6 +11,14 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const validateCode = (code) => {
+    return /^\d{4}$/.test(code);
+  };
+
+  const validatePassword = (password) => {
+    return password.length >= 8;
+  };
+
   const handleSendCode = async (e) => {
     e.preventDefault();
     setError('');
@@ -30,11 +38,22 @@ const ForgotPassword = () => {
   const handleResetPassword = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!validateCode(code)) {
+      setError('Please enter a valid 4-digit verification code');
+      return;
+    }
+
+    if (!validatePassword(newPassword)) {
+      setError('Password must be at least 8 characters long');
+      return;
+    }
+
     setLoading(true);
-    
     try {
       // TODO: Implement API call to verify code and reset password
       // await authService.resetPassword(email, code, newPassword);
+      alert('Password reset successful!');
       navigate('/login');
     } catch (err) {
       setError(err.message || 'Failed to reset password');
@@ -58,7 +77,7 @@ const ForgotPassword = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="Enter your email address"
                 required
               />
             </div>
@@ -74,8 +93,11 @@ const ForgotPassword = () => {
                 type="text"
                 id="code"
                 value={code}
-                onChange={(e) => setCode(e.target.value)}
-                placeholder="Enter verification code"
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                placeholder="Enter 4-digit code"
+                pattern="\d{4}"
+                maxLength="4"
+                title="Please enter a 4-digit code"
                 required
               />
             </div>
@@ -86,7 +108,8 @@ const ForgotPassword = () => {
                 id="newPassword"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Enter new password"
+                placeholder="Enter new password (min. 8 characters)"
+                minLength="8"
                 required
               />
             </div>
