@@ -102,22 +102,7 @@ const Login = () => {
               {loading ? 'Loading...' : 'Login'}
             </button>
 
-            <div className="social-login">
-              <div className="divider">
-                <span>Or continue with</span>
-              </div>
-              <div className="social-buttons">
-                <button type="button" className="social-btn google">
-                  <i className="fab fa-google"></i>
-                </button>
-                <button type="button" className="social-btn github">
-                  <i className="fab fa-github"></i>
-                </button>
-                <button type="button" className="social-btn linkedin">
-                  <i className="fab fa-linkedin"></i>
-                </button>
-              </div>
-            </div>
+            
           </form>
 
           <div className="signup-link">

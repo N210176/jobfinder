@@ -12,8 +12,8 @@
 
 /* Ensure all labels are yellow */
 .form-group label, .photo-upload label, .address-group h3 {
-    color: #FFD700 !important; /* Bright yellow color */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #FF6B35 !important; /* Bright yellow color */
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
 }
 
 .form-group label::before, .address-group h3::before {

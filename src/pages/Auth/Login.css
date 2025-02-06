@@ -92,10 +92,18 @@
     gap: 0.5rem;
 }
 
-.form-group label {
-    color: #1a2634;
+.login-container .form-group label,
+.login-container .input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #FF6B35;
     font-weight: 500;
-    font-size: 0.95rem;
+    text-shadow: none;
+}
+
+.login-container .form-group label::before,
+.login-container .input-group label::before {
+    content: none;
 }
 
 .input-group {
@@ -231,39 +239,8 @@
     font-size: 0.9rem;
 }
 
-.social-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
 
-.social-btn {
-    width: 3rem;
-    height: 3rem;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 10px;
-    background: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.social-btn i {
-    font-size: 1.2rem;
-    color: #64748b;
-    transition: all 0.3s ease;
-}
-
-.social-btn:hover {
-    background: #f8fafc;
-    border-color: #FF6B35;
-}
-
-.social-btn:hover i {
-    color: #FF6B35;
-}
 
 .signup-link {
     text-align: center;

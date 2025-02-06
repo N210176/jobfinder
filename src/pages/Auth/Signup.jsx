@@ -101,7 +101,7 @@ function Signup() {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    placeholder="Enter your first name"
+                    placeholder="First name"
                     required
                   />
                 </div>
@@ -117,7 +117,7 @@ function Signup() {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    placeholder="Enter your last name"
+                    placeholder="Last name"
                     required
                   />
                 </div>
@@ -189,17 +189,7 @@ function Signup() {
               {loading ? 'Creating account...' : 'Create Account'}
             </button>
 
-            <div className="social-signup">
-              <p>Or sign up with</p>
-              <div className="social-buttons">
-                <button type="button" className="social-btn google">
-                  <i className="fab fa-google"></i>
-                </button>
-                <button type="button" className="social-btn facebook">
-                  <i className="fab fa-facebook-f"></i>
-                </button>
-              </div>
-            </div>
+           
 
             <div className="login-link">
               Already have an account? <Link to="/login">Login here</Link>
