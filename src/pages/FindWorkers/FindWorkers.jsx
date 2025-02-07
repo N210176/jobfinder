@@ -120,19 +120,15 @@ const FindWorkers = () => {
         }));
         
         setRegisteredWorkers(formattedWorkers);
-        setWorkers([...defaultWorkers, ...formattedWorkers]);
       } else {
         console.error('Invalid response format:', result);
       }
     } catch (error) {
       console.error('Error fetching worker profiles:', error);
-      setWorkers(defaultWorkers); // Fallback to default workers
     }
   };
 
-      
-
-
+  // Separate useEffect for default workers
   useEffect(() => {
     // Default workers data
     const initialWorkers = [
@@ -284,13 +280,17 @@ const FindWorkers = () => {
     } else {
       setWorkers(initialWorkers);
     }
-    
-    // Fetch registered workers after setting default workers
-    fetchWorkerProfiles();
   }, [location.state?.selectedCategory]);
-  
 
+  // Separate useEffect for fetching registered workers
   useEffect(() => {
+    fetchWorkerProfiles();
+  }, []);
+
+  // Separate useEffect for handling category changes
+  useEffect(() => {
+    if (!defaultWorkers.length) return; // Guard against empty defaultWorkers
+    
     if (category === 'all') {
       // When 'all' is selected, show both default and registered workers
       setWorkers([...defaultWorkers, ...registeredWorkers]);
@@ -303,11 +303,6 @@ const FindWorkers = () => {
       setWorkers(filtered);
     }
   }, [category, defaultWorkers, registeredWorkers]);
-  
-
-  useEffect(() => {
-    fetchWorkerProfiles();
-  }, [fetchWorkerProfiles]);
 
   const handleLocationChange = (event) => {
     setWorkerLocation(event.target.value);

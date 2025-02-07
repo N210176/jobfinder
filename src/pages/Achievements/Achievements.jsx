@@ -20,6 +20,7 @@ const statistics = [
   { id: 4, title: 'Average Rating', value: '4.8/5', icon: <FaStar />, color: '#F44336' },
 ];
 
+
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
