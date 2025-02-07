@@ -10,6 +10,7 @@ import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import About from './pages/About/About';
 import NotFound from './pages/NotFound/NotFound';
+import Achievements from './pages/Achievements/Achievements';
 import './App.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />} />
+            <Route path="/achievements" element={<Achievements />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
