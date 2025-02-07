@@ -113,20 +113,22 @@
 .login-container .input-group input {
     width: 100%;
     padding: 12px 12px 12px 40px;
-    border: 2px solid #FFD700;
+    border: 2px solid #e0e0e0;
     border-radius: 8px;
     font-size: 0.95rem;
     background-color: white;
-    color: #FFD700;
+    color: #000;
     transition: all 0.3s ease;
 }
 
 .login-container .input-group input:focus {
+    border-color: #888;
     outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .login-container .input-group input::placeholder {
-    color: #FFD700;
+    color: #000;
     opacity: 0.7;
 }
 

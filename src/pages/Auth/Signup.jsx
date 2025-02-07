@@ -94,32 +94,42 @@ function Signup() {
               <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
                 <div className="input-group">
-                  <i className="fas fa-user"></i>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    placeholder="First name"
-                    required
-                  />
+                  <div className="input-group-icon">
+                    <i className="fas fa-user-circle"></i>
+                  </div>
+                  <div className="input-group-input">
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      placeholder="First name"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      required
+                      autoComplete="given-name"
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
                 <div className="input-group">
-                  <i className="fas fa-user"></i>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    placeholder="Last name"
-                    required
-                  />
+                  <div className="input-group-icon">
+                    <i className="fas fa-user"></i>
+                  </div>
+                  <div className="input-group-input">
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Last name"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                      autoComplete="family-name"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -127,48 +137,63 @@ function Signup() {
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <div className="input-group">
-                <i className="fas fa-envelope"></i>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Enter your email"
-                  required
-                />
+                <div className="input-group-icon">
+                  <i className="fas fa-envelope"></i>
+                </div>
+                <div className="input-group-input">
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email address"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    autoComplete="email"
+                  />
+                </div>
               </div>
             </div>
 
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="input-group">
-                <i className="fas fa-lock"></i>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Create a password"
-                  required
-                />
+                <div className="input-group-icon">
+                  <i className="fas fa-lock"></i>
+                </div>
+                <div className="input-group-input">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a strong password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                    autoComplete="new-password"
+                  />
+                </div>
               </div>
             </div>
 
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <div className="input-group">
-                <i className="fas fa-lock"></i>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  placeholder="Confirm your password"
-                  required
-                />
+                <div className="input-group-icon">
+                  <i className="fas fa-shield-alt"></i>
+                </div>
+                <div className="input-group-input">
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirm your password"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    required
+                    autoComplete="new-password"
+                  />
+                </div>
               </div>
             </div>
 
@@ -188,8 +213,6 @@ function Signup() {
             <button type="submit" className="signup-button" disabled={!formData.agreeToTerms || loading}>
               {loading ? 'Creating account...' : 'Create Account'}
             </button>
-
-           
 
             <div className="login-link">
               Already have an account? <Link to="/login">Login here</Link>
