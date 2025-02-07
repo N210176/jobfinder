@@ -7,6 +7,23 @@
     
 }
 
+.signup-container .form-group label,
+.signup-container .input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #FF6B35;
+    font-weight: 500;
+    text-shadow: none;
+}
+
+.signup-container .form-group label::before {
+    content: none;
+}
+
+.signup-container .input-group label::before {
+    content: none;
+}
+
 .signup-container {
     display: flex;
     min-height: 100vh;
@@ -135,38 +152,54 @@
     gap: 0.5rem;
 }
 
-.form-group label {
-    color: #1a2634;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
 .input-group {
+    margin-bottom: 20px;
     position: relative;
-    display: flex;
-    align-items: center;
 }
 
 .input-group i {
     position: absolute;
-    left: 1rem;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     color: #94a3b8;
+    z-index: 1;
 }
 
 .input-group input {
     width: 100%;
-    padding: 0.8rem 1rem 0.8rem 2.5rem;
-    border: 2px solid #e2e8f0;
+    padding: 12px 12px 12px 35px;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 0.95rem;
+    font-size: 14px;
     transition: all 0.3s ease;
-    color: #1a2634;
+    background-color: white;
+    color: #333;
+    font-family: inherit;
+}
+
+.input-group input::placeholder {
+    color: #94a3b8;
+    font-style: normal;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.input-group input:hover {
+    border-color: #FFD700;
+    background-color: white;
 }
 
 .input-group input:focus {
-    border-color: #FF6B35;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
     outline: none;
+    border-color: #FFD700;
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+    background-color: white;
+    color: #333;
+}
+
+.input-group input:focus::placeholder {
+    opacity: 0.5;
 }
 
 .error-message {
@@ -179,29 +212,31 @@
 }
 
 .terms-checkbox {
-    margin: 0.5rem 0;
+    margin: 15px 0;
 }
 
 .checkbox-label {
-    display: flex;
+    display: flex !important;
     align-items: center;
-    gap: 0.5rem;
-    color: #64748b;
-    font-size: 0.9rem;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: normal;
 }
 
 .checkbox-label input[type="checkbox"] {
-    width: 1.2rem;
-    height: 1.2rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 2px;
+    margin: 0;
+    width: auto;
     cursor: pointer;
+}
+
+.checkbox-label span {
+    color: #333;
+    font-size: 14px;
 }
 
 .terms-link {
     color: #FF6B35;
     text-decoration: none;
-    font-weight: 500;
 }
 
 .terms-link:hover {
@@ -307,15 +342,6 @@
 
 .social-btn.google:hover i {
     color: #EA4335;
-}
-
-.social-btn.facebook:hover {
-    border-color: #1877F2;
-    background: rgba(24, 119, 242, 0.1);
-}
-
-.social-btn.facebook:hover i {
-    color: #1877F2;
 }
 
 .login-link {

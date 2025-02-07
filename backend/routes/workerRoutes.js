@@ -19,7 +19,7 @@ router.post('/', auth, upload.single('profilePhoto'), async (req, res) => {
         const workerData = {
             ...req.body,
             userId: req.user._id,
-            profilePhotoUrl: req.file.path.replace(/\\/g, '/') // Ensure proper path format
+            profilePhotoUrl: req.file.filename // Store only the filename
         };
 
         const worker = new Worker(workerData);

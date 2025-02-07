@@ -12,10 +12,9 @@ import {
   FormControl, 
   InputLabel,
   ThemeProvider,
-  createTheme,
-  InputAdornment
+  createTheme
 } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import './FindWorkers.css';
 
@@ -98,6 +97,7 @@ const theme = createTheme({
 
 const FindWorkers = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [workers, setWorkers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState(location.state?.selectedCategory || 'all');
@@ -305,6 +305,10 @@ const FindWorkers = () => {
   }, [category, defaultWorkers, registeredWorkers]);
   
 
+  useEffect(() => {
+    fetchWorkerProfiles();
+  }, [fetchWorkerProfiles]);
+
   const handleLocationChange = (event) => {
     setWorkerLocation(event.target.value);
   };
@@ -336,9 +340,8 @@ const FindWorkers = () => {
     setWorkers(filtered);
 };
 
-  const handleBookNow = (worker) => {
-    // For now just show an alert, later we can add booking functionality
-    alert(`Booking request sent for ${worker.name}. They will contact you soon!`);
+  const handleBooking = (worker) => {
+    navigate('/booking', { state: { worker } });
   };
 
   // Get unique categories from default workers and sort them
@@ -456,7 +459,7 @@ const FindWorkers = () => {
             <Button
               fullWidth
               variant="contained"
-              onClick={() => handleBookNow(worker)}
+              onClick={() => handleBooking(worker)}
               sx={{
                 bgcolor: '#ff6b00',
                 '&:hover': {
@@ -486,7 +489,7 @@ const FindWorkers = () => {
                   objectFit: 'cover',
                   border: '2px solid #ff6b00'
                 }}
-                src={worker.profilePhotoUrl ? `http://localhost:5001/${worker.profilePhotoUrl}` : '/default-profile.png'}
+                src={worker.profilePhotoUrl ? `http://localhost:5001/uploads/${worker.profilePhotoUrl}` : '/default-profile.png'}
                 alt={worker.name}
                 onError={(e) => {
                   e.target.onerror = null; // Prevent infinite loop
@@ -520,7 +523,7 @@ const FindWorkers = () => {
             <Button
               fullWidth
               variant="contained"
-              onClick={() => handleBookNow(worker)}
+              onClick={() => handleBooking(worker)}
               sx={{
                 bgcolor: '#ff6b00',
                 '&:hover': {
