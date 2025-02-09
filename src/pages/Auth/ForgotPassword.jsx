@@ -27,6 +27,12 @@ const ForgotPassword = () => {
     try {
       // TODO: Implement API call to send verification code
       // await authService.sendResetCode(email);
+      await fetch('http://localhost:5001/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+    });
+       //console.log("email",email)
       setStep(2);
     } catch (err) {
       setError(err.message || 'Failed to send verification code');
@@ -53,6 +59,12 @@ const ForgotPassword = () => {
     try {
       // TODO: Implement API call to verify code and reset password
       // await authService.resetPassword(email, code, newPassword);
+      await fetch('http://localhost:5001/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code, newPassword }),
+    });
+    
       alert('Password reset successful!');
       navigate('/login');
     } catch (err) {

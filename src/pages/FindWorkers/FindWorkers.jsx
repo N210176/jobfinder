@@ -120,6 +120,7 @@ const FindWorkers = () => {
         }));
         
         setRegisteredWorkers(formattedWorkers);
+        console.log("resigterworker",formattedWorkers);
       } else {
         console.error('Invalid response format:', result);
       }
@@ -484,7 +485,8 @@ const FindWorkers = () => {
                   objectFit: 'cover',
                   border: '2px solid #ff6b00'
                 }}
-                src={worker.profilePhotoUrl ? `http://localhost:5001/uploads/${worker.profilePhotoUrl}` : '/default-profile.png'}
+                // src={worker.profilePhotoUrl ? `http://localhost:5001/uploads/${worker.profilePhotoUrl}` : '/default-profile.png'}
+               src={worker.profilePhotoUrl}
                 alt={worker.name}
                 onError={(e) => {
                   e.target.onerror = null; // Prevent infinite loop
