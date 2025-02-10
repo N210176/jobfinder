@@ -230,7 +230,7 @@ exports.resetPassword = async (req, res) => {
                 message: 'User with this email does not exist'
             });
         }
-
+        //console.log
         // Hash the provided code and compare with stored hash
         const hashedCode = crypto.createHash('sha256').update(code).digest('hex');
         if (hashedCode !== user.resetPasswordCode || user.resetPasswordExpires < Date.now()) {
