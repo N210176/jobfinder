@@ -1,1 +1,17 @@
 
+.find-workers-page {
+    min-height: 100vh;
+    position: relative;
+    color: #ffffff;
+}
+
+.find-workers-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 107, 0, 0.1) 0%, rgba(17, 16, 16, 0) 100%);
+    pointer-events: none;
+}
