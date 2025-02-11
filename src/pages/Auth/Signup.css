@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+.signup-container .form-group label,
+.signup-container .input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #FF6B35;
+    font-weight: 500;
+    text-shadow: none;
+}
+
+.signup-container .form-group label::before {
+    content: none;
+}
+
+.signup-container .input-group label::before {
+    content: none;
+}
+
+.signup-container {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%), linear-gradient(rgba(26, 38, 52, 0.9), rgba(26, 38, 52, 0.95));
+}
+
+
+ 
+ .signup-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center; 
+    padding: 2rem;
+    background: rgba(26, 38, 52, 0.8);
+
+}  
+
+.signup-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-bottom: 300px;
+}
+
+
+
+.signup-header {
+    margin-bottom: 3rem;
+}
+
+.signup-header h2 {
+    font-size: 3rem;
+    color: #FF6B35;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.signup-header .subtitle {
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0.9;
+}
+
+.signup-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 38, 52, 0.8);
+}
+
+.signup-box {
+    width: 100%;
+    max-width: 420px;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.signup-box h3 {
+    font-size: 2rem;
+    color: #1a2634;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.user-type-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.user-type-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 4px;
+    background: white;
+    color: #64748b;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.user-type-btn i {
+    font-size: 1.2rem;
+}
+
+.user-type-btn.active {
+    border-color: #FF6B35;
+    background: rgba(255, 107, 53, 0.1);
+    color: #1a2634;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
