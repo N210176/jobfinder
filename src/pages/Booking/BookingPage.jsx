@@ -71,3 +71,55 @@ function BookingPage() {
     })}! Worker will contact you.`);
     // Here you can add logic to save the booking
   };
+
+  return (
+    <div className="booking-page">
+      <h2>Book Appointment {worker ? `with ${worker.name}` : ''}</h2>
+      
+      <div className="booking-container">
+        <div className="calendar-section">
+          <h3>Select Date</h3>
+          <Calendar
+            onChange={handleDateChange}
+            value={date}
+            minDate={new Date()}
+          />
+        </div>
+
+        <div className="time-slots-section">
+          <h3>Select Time Slot</h3>
+          {Object.entries(timeSlots).map(([period, slots]) => (
+            <div key={period} className="time-period">
+              <h4>{period}</h4>
+              <div className="slots">
+                {slots.map((slot) => {
+                  const isValid = isTimeSlotValid(slot);
+                  return (
+                    <button
+                      key={slot}
+                      className={`slot-btn ${timeSlot === slot ? 'selected' : ''} ${!isValid ? 'disabled' : ''}`}
+                      onClick={() => handleTimeSlotSelect(slot)}
+                      disabled={!isValid}
+                    >
+                      {formatTimeSlot(slot)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="booking-actions">
+          <button 
+            className="confirm-btn"
+            onClick={handleConfirmBooking}
+            disabled={!date || !timeSlot}
+          >
+            Confirm Booking
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
