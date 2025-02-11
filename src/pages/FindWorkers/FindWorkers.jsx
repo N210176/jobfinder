@@ -270,3 +270,20 @@ const FindWorkers = () => {
     ];
     
     setDefaultWorkers(initialWorkers);
+
+// If a category was passed from Services, filter workers immediately
+    if (location.state?.selectedCategory) {
+      const filtered = initialWorkers.filter(worker => 
+        worker.category === location.state.selectedCategory
+      );
+      setWorkers(filtered);
+    } else {
+      setWorkers(initialWorkers);
+    }
+  }, [location.state?.selectedCategory]);
+
+  // Separate useEffect for fetching registered workers
+  useEffect(() => {
+    fetchWorkerProfiles();
+  }, []);
+  
