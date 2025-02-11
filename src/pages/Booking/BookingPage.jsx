@@ -123,3 +123,5 @@ function BookingPage() {
     </div>
   );
 }
+
+export default BookingPage;
