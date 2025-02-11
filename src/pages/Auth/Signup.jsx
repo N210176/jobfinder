@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../api/authService';
@@ -196,3 +197,30 @@ return (
             </div>
 
             <div className="form-group terms-checkbox">
+ <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="agreeToTerms"
+                  checked={formData.agreeToTerms}
+                  onChange={handleInputChange}
+                  required
+                />
+                <span>I agree to the <Link to="/terms" className="terms-link">Terms & Conditions</Link></span>
+              </label>
+            </div>
+
+            <button type="submit" className="signup-button" disabled={!formData.agreeToTerms || loading}>
+              {loading ? 'Creating account...' : 'Create Account'}
+            </button>
+
+            <div className="login-link">
+              Already have an account? <Link to="/login">Login here</Link>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Signup;
