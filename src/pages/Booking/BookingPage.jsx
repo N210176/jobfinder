@@ -58,3 +58,16 @@ function BookingPage() {
       alert('Selected time slot is in the past. Please choose a future time.');
       return;
     }
+
+    // Format the booking time for display
+    const bookingDateTime = new Date(date);
+    const [hours, minutes] = timeSlot.split(':');
+    bookingDateTime.setHours(hours, minutes, 0, 0);
+
+    alert(`Booking confirmed for ${bookingDateTime.toLocaleString('en-IN', { 
+      timeZone: 'Asia/Kolkata',
+      dateStyle: 'full',
+      timeStyle: 'short'
+    })}! Worker will contact you.`);
+    // Here you can add logic to save the booking
+  };
