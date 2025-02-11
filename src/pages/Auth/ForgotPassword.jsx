@@ -59,3 +59,68 @@ const ForgotPassword = () => {
       setLoading(false);
     }
   };
+
+  return (
+    <div className="forgot-password-container">
+      <div className="forgot-password-box">
+        <h2>Reset Password</h2>
+        {error && <div className="error-message">{error}</div>}
+        
+        {step === 1 ? (
+          <form onSubmit={handleSendCode}>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email address"
+                required
+              />
+            </div>
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? 'Sending...' : 'Send Verification Code'}
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleResetPassword}>
+            <div className="form-group">
+              <label htmlFor="code">Verification Code</label>
+              <input
+                type="text"
+                id="code"
+                value={code}
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                placeholder="Enter 4-digit code"
+                pattern="\d{4}"
+                maxLength="4"
+                title="Please enter a 4-digit code"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="newPassword">New Password</label>
+              <input
+                type="password"
+                id="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter new password (min. 8 characters)"
+                minLength="8"
+                required
+              />
+            </div>
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? 'Resetting...' : 'Reset Password'}
+            </button>
+          </form>
+        )}
+        
+        <div className="back-to-login">
+          <a href="/login">Back to Login</a>
+        </div>
+      </div>
+    </div>
+  );
+};
