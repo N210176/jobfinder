@@ -286,4 +286,55 @@ const FindWorkers = () => {
   useEffect(() => {
     fetchWorkerProfiles();
   }, []);
-  
+
+  // Separate useEffect for handling category changes
+  useEffect(() => {
+    if (!defaultWorkers.length) return; // Guard against empty defaultWorkers
+    
+    if (category === 'all') {
+      // When 'all' is selected, show both default and registered workers
+      setWorkers([...defaultWorkers, ...registeredWorkers]);
+    } else {
+      // Filter both default and registered workers by category
+      const allWorkers = [...defaultWorkers, ...registeredWorkers];
+      const filtered = allWorkers.filter(worker => 
+        (worker.category || worker.service).toLowerCase() === category.toLowerCase()
+      );
+      setWorkers(filtered);
+    }
+  }, [category, defaultWorkers, registeredWorkers]);
+
+  const handleLocationChange = (event) => {
+    setWorkerLocation(event.target.value);
+  };
+
+  const handleSearch = () => {
+    let filtered = [...defaultWorkers, ...registeredWorkers];
+
+    console.log("Search Query:", searchQuery);
+    console.log("Workers before filtering:", filtered);
+
+    if (searchQuery) {
+        filtered = filtered.filter(worker =>
+            worker.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (Array.isArray(worker.skills) && worker.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase())))
+        );
+    }
+
+    if (category !== 'all') {
+        filtered = filtered.filter(worker => (worker.category || worker.service).toLowerCase() === category.toLowerCase());
+    }
+
+    if (workerLocation) {
+        filtered = filtered.filter(worker =>
+            (worker.location || (worker.address?.city)).toLowerCase().includes(workerLocation.toLowerCase())
+        );
+    }
+
+    console.log("Filtered Workers:", filtered);
+    setWorkers(filtered);
+};
+
+  const handleBooking = (worker) => {
+    navigate('/booking', { state: { worker } });
+  };
