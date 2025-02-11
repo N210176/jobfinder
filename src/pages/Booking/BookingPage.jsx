@@ -39,3 +39,22 @@ function BookingPage() {
     setDate(newDate);
     setTimeSlot(''); // Reset time slot when date changes
   };
+
+  const handleTimeSlotSelect = (time) => {
+    if (isTimeSlotValid(time)) {
+      setTimeSlot(time);
+    } else {
+      alert('Please select a future time slot');
+    }
+  };
+
+  const handleConfirmBooking = () => {
+    if (!date || !timeSlot) {
+      alert('Please select both date and time slot');
+      return;
+    }
+
+    if (!isTimeSlotValid(timeSlot)) {
+      alert('Selected time slot is in the past. Please choose a future time.');
+      return;
+    }
