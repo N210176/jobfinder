@@ -11,3 +11,12 @@
     min-height: 100vh;
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%), linear-gradient(rgba(26, 38, 52, 0.9), rgba(26, 38, 52, 0.95));
 }
+
+.login-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(26, 38, 52, 0.8);
+}
