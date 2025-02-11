@@ -85,3 +85,114 @@ return (
               I provide services
             </button>
           </div>
+          <form onSubmit={handleSubmit} className="signup-form">
+            {error && <div className="error-message">{error}</div>}
+
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="firstName">First Name</label>
+                <div className="input-group">
+                  <div className="input-group-icon">
+                    <i className="fas fa-user-circle"></i>
+                  </div>
+                  <div className="input-group-input">
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      placeholder="First name"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      required
+                      autoComplete="given-name"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <div className="input-group">
+                  <div className="input-group-icon">
+                    <i className="fas fa-user"></i>
+                  </div>
+                  <div className="input-group-input">
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Last name"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                      autoComplete="family-name"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <div className="input-group">
+                <div className="input-group-icon">
+                  <i className="fas fa-envelope"></i>
+                </div>
+                <div className="input-group-input">
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email address"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    autoComplete="email"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <div className="input-group">
+                <div className="input-group-icon">
+                  <i className="fas fa-lock"></i>
+                </div>
+                <div className="input-group-input">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a strong password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                    autoComplete="new-password"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <div className="input-group">
+                <div className="input-group-icon">
+                  <i className="fas fa-shield-alt"></i>
+                </div>
+                <div className="input-group-input">
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirm your password"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    required
+                    autoComplete="new-password"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group terms-checkbox">
