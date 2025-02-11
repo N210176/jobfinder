@@ -1,0 +1,14 @@
+/* Updated placeholder text and label colors */
+
+/* Removed global placeholder color */
+.form-group input::placeholder, 
+.form-group input::-moz-placeholder, 
+.form-group input:-ms-input-placeholder, 
+.form-group input::-ms-input-placeholder, 
+.form-group select option:first-child,
+.form-group textarea::placeholder {
+    color: #000 !important;
+    font-weight: 400;
+    font-style: normal;
+    opacity: 0.7;
+}
