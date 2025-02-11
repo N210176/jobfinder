@@ -12,3 +12,22 @@
     font-style: normal;
     opacity: 0.7;
 }
+
+/* Ensure all labels are yellow */
+.form-group label, .photo-upload label, .address-group h3 {
+    color: #FF6B35 !important; /* Bright yellow color */
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
+}
+
+.form-group label::before, .address-group h3::before {
+    color: #FFD700 !important;
+}
+
+
+
+
+.post-job-page {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
