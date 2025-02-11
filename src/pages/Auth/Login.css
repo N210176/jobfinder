@@ -154,3 +154,67 @@
     gap: 0.5rem;
     cursor: pointer;
 }
+
+.remember-me input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #FF6B35;
+    cursor: pointer;
+}
+
+.remember-me span {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.forgot-password {
+    color: #FF6B35;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.login-button {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-width: 90px;
+    text-align: center;
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    box-sizing: border-box;
+    background-color: orangered;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-button:hover {
+    background: #ff825e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+.social-login {
+    margin-top: 1.5rem;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
