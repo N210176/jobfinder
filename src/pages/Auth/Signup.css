@@ -238,3 +238,16 @@
     width: auto;
     cursor: pointer;
 }
+.checkbox-label span {
+    color: #333;
+    font-size: 14px;
+}
+
+.terms-link {
+    color: #FF6B35;
+    text-decoration: none;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
