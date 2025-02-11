@@ -110,4 +110,42 @@ const PostJob = () => {
             reader.readAsDataURL(file);
         }
     };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+<<<<<<< HEAD
+=======
+        
+        // Validate phone number before submission
+        const phoneRegex = /^[789]\d{9}$/;
+        if (!phoneRegex.test(formData.phone)) {
+            setError('Please enter a valid 10-digit phone number starting with 7, 8, or 9');
+            return;
+        }
+        
+>>>>>>> 10411c255f24a0732cc657d85809b213412d05f2
+        setLoading(true);
+        setError(null);
+
+        try {
+            const formDataToSend = new FormData();
+            Object.keys(formData).forEach(key => {
+                if (key === 'address') {
+                    Object.keys(formData.address).forEach(addressKey => {
+                        formDataToSend.append(`address[${addressKey}]`, formData.address[addressKey]);
+                    });
+                } else if (key === 'profilePhoto') {
+                    formDataToSend.append('profilePhoto', formData.profilePhoto);
+                } else if (key !== 'profilePhotoUrl') {
+                    formDataToSend.append(key, formData[key]);
+                }
+            });
+            await workerService.createWorker(formDataToSend);
+            navigate('/find-workers');
+        } catch (error) {
+            console.error('Error creating profile:', error);
+            setError(error.message || 'Failed to create profile. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
