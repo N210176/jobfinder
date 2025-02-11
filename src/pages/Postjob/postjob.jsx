@@ -88,4 +88,26 @@ const PostJob = () => {
             }));
         }
     };
+    const handlePhotoChange = (e) => {
+        const file = e.target.files[0];
+        //console.log("File selected:", file);
+        if (file) {
+            //console.log("File selected:", file);
+            if (file.size > 30 * 1024 * 1024) { // 30MB limit
+                setError('File size should be less than 30MB. Please compress your image or choose a smaller file.');
+                e.target.value = ''; // Clear the file input
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result;
+                setFormData(prev => ({
+                    ...prev,
+                    profilePhotoUrl: base64String,
+                    profilePhoto: file
+                }));
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
