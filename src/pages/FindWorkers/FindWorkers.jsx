@@ -127,3 +127,146 @@ const FindWorkers = () => {
       console.error('Error fetching worker profiles:', error);
     }
   };
+
+  // Separate useEffect for default workers
+  useEffect(() => {
+    // Default workers data
+    const initialWorkers = [
+      {
+        id: 1,
+        name: 'Manoj Kumar',
+        category: 'Carpenter',
+        location: 'Bangalore',
+        rating: 4.7,
+        experience: '12',
+        hourlyRate: '₹700',
+        skills: ['Custom Furniture', 'Wood Repair', 'Cabinet Making'],
+        languages: ['Kannada', 'English', 'Hindi'],
+        availability: 'All Days',
+        completedJobs: 345,
+        profileImage: manojImg,
+        verified: true
+      },
+      {
+        id: 2,
+        name: 'Rishik',
+        category: 'Electrician',
+        location: 'Delhi',
+        rating: 4.9,
+        experience: '6',
+        hourlyRate: '₹550',
+        skills: ['Wiring', 'Circuit Installation', 'Smart Home Setup'],
+        languages: ['Hindi', 'English'],
+        availability: 'Weekdays',
+        completedJobs: 189,
+        profileImage: rishikImg,
+        verified: true
+      },
+      {
+        id: 3,
+        name: 'Ketham Babu',
+        category: 'Plumber',
+        location: 'Mumbai',
+        rating: 4.8,
+        experience: '8',
+        hourlyRate: '₹600',
+        skills: ['Pipe Fitting', 'Leak Repair', 'Bathroom Installation'],
+        languages: ['Hindi', 'English', 'Marathi'],
+        availability: 'Weekdays & Weekends',
+        completedJobs: 234,
+        profileImage: kethamImg,
+        verified: true
+      },
+      {
+        id: 4,
+        name: 'Ahalya',
+        category: 'House Cleaner',
+        location: 'Hyderabad',
+        rating: 4.6,
+        experience: '4',
+        hourlyRate: '₹400',
+        skills: ['Deep Cleaning', 'Organization', 'Sanitization'],
+        languages: ['Telugu', 'Hindi', 'English'],
+        availability: 'Weekdays',
+        completedJobs: 156,
+        profileImage: ahalyaImg,
+        verified: true
+      },
+      {
+        id: 5,
+        name: 'Sagar',
+        category: 'Painter',
+        location: 'Pune',
+        rating: 4.8,
+        experience: '10',
+        hourlyRate: '₹650',
+        skills: ['Interior Painting', 'Exterior Painting', 'Wallpaper Installation'],
+        languages: ['Hindi', 'Marathi', 'English'],
+        availability: 'Flexible',
+        completedJobs: 278,
+        profileImage: sagarImg,
+        verified: true
+      },
+      {
+        id: 6,
+        name: 'Vijaya Lakshmi',
+        category: 'Gardener',
+        location: 'Chennai',
+        rating: 4.7,
+        experience: '5',
+        hourlyRate: '₹450',
+        skills: ['Landscaping', 'Plant Care', 'Garden Maintenance'],
+        languages: ['Tamil', 'English'],
+        availability: 'Morning Hours',
+        completedJobs: 143,
+        profileImage: vijayaImg,
+        verified: true
+      },
+      {
+        id: 7,
+        name: 'Sunil Kumar',
+        category: 'AC Technician',
+        location: 'Mumbai',
+        rating: 4.9,
+        experience: '7',
+        hourlyRate: '₹800',
+        skills: ['AC Repair', 'Installation', 'Maintenance'],
+        languages: ['Hindi', 'English', 'Marathi'],
+        availability: 'All Days',
+        completedJobs: 312,
+        profileImage: sunilImg,
+        verified: true
+      },
+      {
+        id: 8,
+        name: 'Annie Harshini',
+        category: 'Cook',
+        location: 'Delhi',
+        rating: 4.8,
+        experience: '15',
+        hourlyRate: '₹750',
+        skills: ['Indian Cuisine', 'Baking', 'Dietary Cooking'],
+        languages: ['Hindi', 'English', 'Punjabi'],
+        availability: 'Flexible Hours',
+        completedJobs: 423,
+        profileImage: annieImg,
+        verified: true
+      },
+      {
+        id: 9,
+        name: 'Venkatesh',
+        category: 'Security Guard',
+        location: 'Bangalore',
+        rating: 4.6,
+        experience: '9',
+        hourlyRate: '₹500',
+        skills: ['Surveillance', 'Emergency Response', 'Access Control'],
+        languages: ['English', 'Kannada', 'Hindi'],
+        availability: '24/7 Shifts',
+        completedJobs: 167,
+        profileImage: venkateshImg,
+        verified: true
+      }
+    ];
+    
+    setDefaultWorkers(initialWorkers);
