@@ -31,3 +31,36 @@
     max-width: 1200px;
     margin: 0 auto;
 }
+.post-job-page h1 {
+    color: #1a2634;
+    margin-bottom: 30px;
+}
+
+.post-job-container {
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+    color: #fff;
+    position: relative;
+}
+
+.post-job-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 107, 0, 0.1) 0%, rgba(17, 16, 16, 0) 100%);
+    pointer-events: none;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+    position: relative;
+}
