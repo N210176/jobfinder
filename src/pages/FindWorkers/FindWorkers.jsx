@@ -338,3 +338,308 @@ const FindWorkers = () => {
   const handleBooking = (worker) => {
     navigate('/booking', { state: { worker } });
   };
+
+  // Get unique categories from default workers and sort them
+  const categories = [
+    'Plumber',
+    'Electrician',
+    'Carpenter',
+    'Painter',
+    'House Cleaner',
+    'Gardener',
+    'AC Technician',
+    'Cook',
+    'Security Guard'
+  ].sort();
+
+  const renderWorkerCard = (worker) => {
+    const isDefaultWorker = worker.verified !== undefined;
+
+    if (isDefaultWorker) {
+      // Render default worker card with original layout
+      return (
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <CardContent sx={{ flexGrow: 1 }}>
+            {worker.verified && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 10,
+                  right: 10,
+                  backgroundColor: '#ff6b00',
+                  color: '#ffffff',
+                  padding: '4px 8px',
+                  borderRadius: '12px',
+                  fontSize: '0.75rem',
+                  fontWeight: 500,
+                  zIndex: 1,
+                }}
+              >
+                ✓ Verified
+              </Box>
+            )}
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Box
+                component="img"
+                sx={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '2px solid #ff6b00'
+                }}
+                src={worker.profileImage}
+                alt={worker.name}
+              />
+              <Box sx={{ ml: 2 }}>
+                <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 600 }}>
+                  {worker.name}
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#ffffff' }}>
+                  {worker.category}
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
+                  <Typography sx={{ color: '#FFD700', fontWeight: 600, mr: 1 }}>
+                    {worker.rating}
+                  </Typography>
+                  <Typography sx={{ color: '#FFD700' }}>
+                    {'★'.repeat(Math.floor(worker.rating))}
+                    {worker.rating % 1 !== 0 && '½'}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            <Typography variant="body2" sx={{ mb: 1, color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Rate:</strong> {worker.hourlyRate}/hour
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1, color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Experience:</strong> {worker.experience} years
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1, color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Location:</strong> {worker.location}
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1, color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Languages:</strong> {worker.languages.join(', ')}
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1, color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Availability:</strong> {worker.availability}
+            </Typography>
+
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="body2" sx={{ color: '#FFD700', mb: 1 }}>
+                Skills:
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {worker.skills.map((skill, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      bgcolor: 'rgba(255, 107, 0, 0.2)',
+                      color: '#ffffff',
+                      px: 1,
+                      py: 0.5,
+                      borderRadius: 1,
+                      fontSize: '0.75rem',
+                      border: '1px solid #ff6b00'
+                    }}
+                  >
+                    {skill}
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          </CardContent>
+          <Box sx={{ p: 2, pt: 0 }}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => handleBooking(worker)}
+              sx={{
+                bgcolor: '#ff6b00',
+                '&:hover': {
+                  bgcolor: '#ff8533',
+                },
+                color: '#ffffff',
+                fontWeight: 600,
+              }}
+            >
+              Book Now
+            </Button>
+          </Box>
+        </Card>
+      );
+    } else {
+      // Render new worker card with PostJob layout
+      return (
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <CardContent sx={{ flexGrow: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Box
+                component="img"
+                sx={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '2px solid #ff6b00'
+                }}
+                src={worker.profilePhotoUrl ? `http://localhost:5001/uploads/${worker.profilePhotoUrl}` : '/default-profile.png'}
+                alt={worker.name}
+                onError={(e) => {
+                  e.target.onerror = null; // Prevent infinite loop
+                  e.target.src = '/default-profile.png';
+                }}
+              />
+              <Box sx={{ ml: 2 }}>
+                <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 600 }}>
+                  {worker.name}
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#ffffff' }}>
+                  {worker.service}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Typography variant="body2" sx={{ mb: 1, color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Experience:</strong> {worker.experience} years
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1, color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Phone:</strong> {worker.phone}
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1, color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Location:</strong> {worker.address.city}, {worker.address.district}
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#ffffff' }}>
+              <strong style={{ color: '#FFD700' }}>Address:</strong> {worker.address.street}
+            </Typography>
+          </CardContent>
+          <Box sx={{ p: 2, pt: 0 }}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => handleBooking(worker)}
+              sx={{
+                bgcolor: '#ff6b00',
+                '&:hover': {
+                  bgcolor: '#ff8533',
+                },
+                color: '#ffffff',
+                fontWeight: 600,
+              }}
+            >
+              Book Now
+            </Button>
+          </Box>
+        </Card>
+      );
+    }
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Box sx={{ 
+        p: 3, 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #1a1a1a 0%, #333333 100%)',
+        position: 'relative'
+      }} className="find-workers-page">
+        <Box sx={{ 
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(45deg, rgba(255, 107, 0, 0.1) 0%, rgba(17, 16, 16, 0) 100%)',
+          pointerEvents: 'none'
+        }} />
+        
+        <Box sx={{ position: 'relative', maxWidth: '1200px', margin: '0 auto' }}>
+          <Typography variant="h4" gutterBottom sx={{ color: '#FFD700', fontWeight: 600, mb: 4, textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            Find Workers
+          </Typography>
+          
+          <Grid container spacing={2} sx={{ mb: 4 }}>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                label="Search workers"
+                variant="outlined"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  handleSearch();
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <FormControl fullWidth>
+                <InputLabel sx={{ color: '#FFD700' }}>Category</InputLabel>
+                <Select
+                  value={category}
+                  label="Category"
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
+                  sx={{
+                    color: '#ffffff',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#ff6b00',
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#FFD700',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#ff6b00',
+                    },
+                  }}
+                >
+                  <MenuItem value="all">All Categories</MenuItem>
+                  {categories.map((cat) => (
+                    <MenuItem key={cat} value={cat}>
+                      {cat}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                fullWidth
+                label="Location"
+                variant="outlined"
+                value={workerLocation}
+                onChange={handleLocationChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={handleSearch}
+                sx={{
+                  height: '56px',
+                  bgcolor: '#ff6b00',
+                  '&:hover': {
+                    bgcolor: '#ff8533',
+                  },
+                }}
+              >
+                Search
+              </Button>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={3}>
+            {workers.map((worker) => (
+              <Grid item xs={12} sm={6} md={4} key={worker.id || worker._id || `worker-${worker.name}-${worker.category || worker.service}`}>
+                {renderWorkerCard(worker)}
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Box>
+    </ThemeProvider>
+  );
+};
+
