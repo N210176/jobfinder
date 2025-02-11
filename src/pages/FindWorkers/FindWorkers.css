@@ -20,3 +20,15 @@
     color: rgba(255, 255, 255, 0.7) !important;
     opacity: 1;
 }
+/* Select dropdown styles */
+.MuiSelect-select {
+    color: #ffffff !important;
+}
+
+.MuiMenuItem-root {
+    color: #333333;
+}
+
+.MuiMenuItem-root:hover {
+    background-color: rgba(255, 107, 0, 0.1) !important;
+}
