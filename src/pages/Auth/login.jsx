@@ -19,3 +19,18 @@ const Login = () => {
       [name]: value
     }));
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    
+    try {
+      await authService.login(formData.email, formData.password);
+      navigate('/');
+    } catch (err) {
+      setError(err.message || 'Invalid email or password');
+    } finally {
+      setLoading(false);
+    }
+  };
