@@ -213,6 +213,30 @@
     margin-top: 1.5rem;
 }
 
+.divider::before,
+.divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 4rem);
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.divider span {
+    background: white;
+    padding: 0 1rem;
+    color: #64748b;
+    font-size: 0.9rem;
+}
 .divider {
     position: relative;
     text-align: center;
