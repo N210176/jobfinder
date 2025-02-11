@@ -104,3 +104,26 @@ const FindWorkers = () => {
   const [workerLocation, setWorkerLocation] = useState('');
   const [defaultWorkers, setDefaultWorkers] = useState([]);
   const [registeredWorkers, setRegisteredWorkers] = useState([]);
+
+     // Fetch worker profiles from backend
+
+  const fetchWorkerProfiles = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/api/workers');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        const formattedWorkers = result.data.map(worker => ({
+          ...worker,
+          skills: worker.skills || [] // Ensure `skills` is always an array
+        }));
+        
+        setRegisteredWorkers(formattedWorkers);
+      } else {
+        console.error('Invalid response format:', result);
+      }
+    } catch (error) {
+      console.error('Error fetching worker profiles:', error);
+    }
+  };
