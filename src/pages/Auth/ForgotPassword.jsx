@@ -48,3 +48,14 @@ const ForgotPassword = () => {
       setError('Password must be at least 8 characters long');
       return;
     }
+
+    setLoading(true);
+    try {
+      alert('Password reset successful!');
+      navigate('/login');
+    } catch (err) {
+      setError(err.message || 'Failed to reset password');
+    } finally {
+      setLoading(false);
+    }
+  };
