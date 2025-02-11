@@ -104,3 +104,24 @@
     font-size: 1rem;
     transition: background 0.2s;
 }
+
+.confirm-btn:hover:not(:disabled) {
+    background: #e85a2a;
+}
+
+.confirm-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+    .booking-container {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .calendar-section,
+    .time-slots-section {
+        flex: 1;
+    }
+}
