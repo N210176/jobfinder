@@ -263,3 +263,26 @@
 .signup-link a:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+    .login-box {
+        padding: 2rem;
+        margin: 1rem;
+    }
+    .social-buttons {
+        gap: 0.75rem;
+    }
+    .social-btn {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-header h2 {
+        font-size: 2rem;
+    }
+    .login-box {
+        padding: 2rem 1.5rem;
+    }
+}
