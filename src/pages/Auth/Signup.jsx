@@ -52,3 +52,36 @@ function Signup() {
       [name]: type === 'checkbox' ? checked : value
     }));
   };
+return (
+    <div className="signup-container">
+      <div className="signup-left">
+        <div className="signup-content">
+          <div className="signup-header">
+            <h2>Welcome to HandyHive!</h2>
+            <p className="subtitle">Create an account to get started</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="signup-right">
+        <div className="signup-box">
+          <h3>Create Account</h3>
+          
+          <div className="user-type-buttons">
+            <button 
+              type="button"
+              className={`user-type-btn ${userType === 'client' ? 'active' : ''}`}
+              onClick={() => setUserType('client')}
+            >
+              <i className="fas fa-user"></i>
+              I need a service
+            </button>
+            <button 
+              type="button"
+              className={`user-type-btn ${userType === 'worker' ? 'active' : ''}`}
+              onClick={() => setUserType('worker')}
+            >
+              <i className="fas fa-tools"></i>
+              I provide services
+            </button>
+          </div>
