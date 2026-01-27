@@ -10,4 +10,5 @@ A job-finding platform connecting households with skilled workers.
 
 ## Project Structure
 - backend/
-- frontend/
+- src/
+
